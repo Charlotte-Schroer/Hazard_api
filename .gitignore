@@ -1,2 +1,25 @@
+.settings/
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
+
+# Build artifacts
+*.map
+*.o
+*.d
+*.a
+*.dep
+*.su
+*.log
+*.bak
+*.tmp
+*.cyclo
+
+
 node_modules
 .env
