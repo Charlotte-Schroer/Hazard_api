@@ -1,23 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Hazard API Documentation">
     <meta name="keywords" content="Hazard API, API, Documentation">
     <meta name="author" content="Charlotte Schröer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Hazard API Documentation</title>
+    
     <link rel="stylesheet" href="CSS/style.css">
-
 </head>
 
 <body>
     <h1>🚨 Hazard API Documentation</h1>
-    <p>Welcome to the Hazard API. This API allows you to manage hazards and their categories for risk management
-        purposes.</p>
+    <p>Welcome to the Hazard API. This API allows you to manage hazards and their categories for risk management purposes.</p>
 
+    <h2>Base URL</h2>
+    <p><code>http://localhost:3000</code></p>
+
+    <h2>📁 Categories</h2>
+    <div class="section">
+        <p>Categories are used to organize hazards into logical groups.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                    <th>Query Parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/categories</td>
+                    <td>Get all categories with pagination</td>
+                    <td><code>limit</code> (default: 10), <code>offset</code> (default: 0)</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/categories/search</td>
+                    <td>Search categories by name</td>
+                    <td><code>q</code> (required) - search query</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/category/:id</td>
+                    <td>Get a single category by ID</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method post">POST</span></td>
+                    <td class="endpoint">/api/categories</td>
+                    <td>Create a new category</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method put">PUT</span></td>
+                    <td class="endpoint">/api/category/:id</td>
+                    <td>Update an existing category</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method delete">DELETE</span></td>
+                    <td class="endpoint">/api/category/:id</td>
+                    <td>Delete a category</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Category Schema</h3>
+        <div class="example">
+            <pre>{
+  "name": "Chemical Hazards",     // Required, no numbers allowed
+  "description": "Hazards related to chemical substances",  // Required
+  "color": "#FF5733"              // Optional, default: #FF0000
+}</pre>
+        </div>
+    </div>
+
+    <h2>⚠️ Hazards</h2>
+    <div class="section">
+        <p>Hazards represent potential risks that need to be managed.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                    <th>Query Parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/hazards</td>
+                    <td>Get all hazards with pagination</td>
+                    <td><code>limit</code> (default: 10), <code>offset</code> (default: 0)</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/hazards/search</td>
+                    <td>Search hazards by name or description</td>
+                    <td><code>q</code> (required) - search query</td>
+                </tr>
+                <tr>
+                    <td><span class="method get">GET</span></td>
+                    <td class="endpoint">/api/hazard/:id</td>
+                    <td>Get a single hazard by ID</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method post">POST</span></td>
+                    <td class="endpoint">/api/hazards</td>
+                    <td>Create a new hazard</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method put">PUT</span></td>
+                    <td class="endpoint">/api/hazard/:id</td>
+                    <td>Update an existing hazard</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><span class="method delete">DELETE</span></td>
+                    <td class="endpoint">/api/hazard/:id</td>
+                    <td>Delete a hazard</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Hazard Schema</h3>
+        <div class="example">
+            <pre>{
+  "name": "Fire Risk",           // Required, no numbers allowed
+  "description": "Risk of fire in the workplace",  // Required
+  "severity": 4,                 // Required, number 1-5
+  "category": "64f1a2b3c4d5e6f7g8h9i0j1"  // Required, Category ObjectId
+}</pre>
+        </div>
+    </div>
+
+    <h2>📖 Usage Examples</h2>
+    <div class="section">
+        <h3>Get all hazards with pagination</h3>
+        <div class="example">
+            <pre>GET /api/hazards?limit=5&offset=0
+
+Response:
+{
+  "data": [...],
+  "pagination": {
+    "total": 25,
+    "limit": 5,
+    "offset": 0,
+    "hasMore": true
+  }
+}</pre>
+        </div>
+
+        <h3>Search hazards</h3>
+        <div class="example">
+            <pre>GET /api/hazards/search?q=fire
+
+Response:
+[
+  {
+    "_id": "64f1a2b3c4d5e6f7g8h9i0j1",
+    "name": "Fire Risk",
+    "description": "Risk of fire in the workplace",
+    "severity": 4,
+    "category": { ... }
+  }
+]</pre>
+        </div>
+
+        <h3>Create a new category</h3>
+        <div class="example">
+            <pre>POST /api/categories
+Content-Type: application/json
+
+{
+  "name": "Physical Hazards",
+  "description": "Hazards that can cause physical harm",
+  "color": "#3498db"
+}</pre>
+        </div>
+    </div>
+
+    <h2>⚡ Validation Rules</h2>
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>name</code></td>
+                    <td>String</td>
+                    <td>Required, cannot contain numbers</td>
+                </tr>
+                <tr>
+                    <td><code>description</code></td>
+                    <td>String</td>
+                    <td>Required</td>
+                </tr>
+                <tr>
+                    <td><code>severity</code></td>
+                    <td>Number</td>
+                    <td>Required, must be between 1 and 5</td>
+                </tr>
+                <tr>
+                    <td><code>category</code></td>
+                    <td>ObjectId</td>
+                    <td>Required, must reference existing Category</td>
+                </tr>
+                <tr>
+                    <td><code>color</code></td>
+                    <td>String</td>
+                    <td>Optional, defaults to #FF0000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>❌ Error Responses</h2>
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Status Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>400</code></td>
+                    <td>Bad Request - Invalid input or missing required fields</td>
+                </tr>
+                <tr>
+                    <td><code>404</code></td>
+                    <td>Not Found - Resource does not exist</td>
+                </tr>
+                <tr>
+                    <td><code>500</code></td>
+                    <td>Internal Server Error - Something went wrong on the server</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Hazard API v0.1</p>
+    </footer>
 
 </body>
-
 </html>
