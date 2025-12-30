@@ -67,6 +67,7 @@ app.get('/api/hazards/search', async (req, res) => {
     }
 });
 
+// Get a single hazard
 app.get('/api/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -77,6 +78,7 @@ app.get('/api/hazard/:id', async (req, res) => {
     }
 });
 
+// Create a hazard
 app.post('/api/hazards', async (req, res) => {
     try {
         const hazard = await Hazard.create(req.body);
@@ -86,7 +88,7 @@ app.post('/api/hazards', async (req, res) => {
     }
 });
 
-//update a hazard
+// Update a hazard
 app.put('/api/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -104,7 +106,7 @@ app.put('/api/hazard/:id', async (req, res) => {
     }
 });
 
-//delete a hazard
+// Delete a hazard
 app.delete('/api/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -122,8 +124,7 @@ app.delete('/api/hazard/:id', async (req, res) => {
     }
 });
 
-//Categories
-
+// Categories
 app.get('/api/categories', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
