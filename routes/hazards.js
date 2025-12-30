@@ -2,10 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const Hazard = require('./models/hazard.model');
+const Hazard = require('../models/hazard.model');
 
 // Get hazards
-app.get('/api/hazards', async (req, res) => {
+router.get('/hazards', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
         const offset = parseInt(req.query.offset) || 0;
@@ -32,7 +32,7 @@ app.get('/api/hazards', async (req, res) => {
 });
 
 // Search hazards by name or description
-app.get('/api/hazards/search', async (req, res) => {
+router.get('/hazards/search', async (req, res) => {
     try {
         const { q } = req.query;
 
@@ -54,7 +54,7 @@ app.get('/api/hazards/search', async (req, res) => {
 });
 
 // Get a single hazard
-app.get('/api/hazard/:id', async (req, res) => {
+router.get('/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const hazard = await Hazard.findById(id);
@@ -65,7 +65,7 @@ app.get('/api/hazard/:id', async (req, res) => {
 });
 
 // Create a hazard
-app.post('/api/hazards', async (req, res) => {
+router.post('/hazards', async (req, res) => {
     try {
         const hazard = await Hazard.create(req.body);
         res.status(200).json(hazard);
@@ -75,7 +75,7 @@ app.post('/api/hazards', async (req, res) => {
 });
 
 // Update a hazard
-app.put('/api/hazard/:id', async (req, res) => {
+router.put('/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const hazard = await Hazard.findByIdAndUpdate(id, req.body);
@@ -93,7 +93,7 @@ app.put('/api/hazard/:id', async (req, res) => {
 });
 
 // Delete a hazard
-app.delete('/api/hazard/:id', async (req, res) => {
+router.delete('/hazard/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
