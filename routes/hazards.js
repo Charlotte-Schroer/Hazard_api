@@ -10,8 +10,17 @@ router.get('/hazards', async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const offset = parseInt(req.query.offset) || 0;
 
+        // Sorting logic
+        const sortBy = req.query.sortBy || 'createdAt';
+        const order = req.query.order === 'asc' ? 1 : -1;
+
+        // Validate sortBy field 
+        const allowedSortFields = ['name', 'severity', 'createdAt'];
+        const sortField = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
+
         const hazards = await Hazard.find({})
             .populate('category')
+            .sort({ [sortField]: order })
             .limit(limit)
             .skip(offset);
 
@@ -23,7 +32,9 @@ router.get('/hazards', async (req, res) => {
                 total,
                 limit,
                 offset,
-                hasMore: offset + hazards.length < total
+                hasMore: offset + hazards.length < total,
+                sortBy: sortField,
+                order: order === 1 ? 'asc' : 'desc'
             }
         });
     } catch (error) {
